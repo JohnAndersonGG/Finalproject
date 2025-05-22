@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Edit Flashcard</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Edit Flashcard</h1>
+    <button onclick="window.location.href='/all-cards'">Back</button>
+  </header>
+  <form id="edit-form">
+    <input type="text" id="question" placeholder="Enter question..." />
+    <textarea id="answer" rows="4" placeholder="Enter answer..."></textarea>
+    <button type="submit">Save Changes</button>
+  </form>
+
+  <script>
+    const id = window.location.pathname.split('/').pop();
+    const questionEl = document.getElementById('question');
+    const answerEl = document.getElementById('answer');
+
+    async function loadCard() {
+      const res = await fetch('/api/cards');
+      const cards = await res.json();
+      const card = cards.find(c => c.id == id);
+      if (card) {
+        questionEl.value = card.question;
+        answerEl.value = card.answer;
+      }
+    }
+
+    document.getElementById('edit-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const question = questionEl.value.trim();
+      const answer = answerEl.value.trim();
+
+      await fetch('/api/cards/' + id, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question, answer })
+      });
+
+      window.location.href = '/all-cards';
+    });
+
+    loadCard();
+  </script>
+</body>
+</html>

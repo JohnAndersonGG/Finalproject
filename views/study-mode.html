@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Study Mode</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header>
+    <h1>Study Mode</h1>
+    <button onclick="window.location.href='/'">Back</button>
+  </header>
+
+  <main id="study-area">
+    <div class="flashcard" id="study-card">
+      <div class="card-inner" id="card-inner">
+        <div class="card-front">
+          <h2 id="study-question">Loading...</h2>
+        </div>
+        <div class="card-back">
+          <p id="study-answer">Answer hidden</p>
+        </div>
+      </div>
+    </div>
+    <div class="study-controls">
+      <button onclick="prevCard()">⬅ Prev</button>
+      <button onclick="toggleAnswer()">Flip</button>
+      <button onclick="nextCard()">Next ➡</button>
+    </div>
+  </main>
+
+  <script>
+    let cards = [];
+    let currentIndex = 0;
+    const questionEl = document.getElementById('study-question');
+    const answerEl = document.getElementById('study-answer');
+
+    async function loadCards() {
+      const res = await fetch('/api/cards');
+      cards = await res.json();
+      showCard();
+    }
+
+    function showCard() {
+      const card = document.getElementById('study-card');
+      card.classList.remove('flipped'); // Reset flip state
+
+      if (cards.length === 0) {
+        questionEl.textContent = 'No flashcards available.';
+        answerEl.textContent = '';
+        return;
+      }
+
+      const currentCard = cards[currentIndex];
+      questionEl.textContent = currentCard.question;
+      answerEl.textContent = currentCard.answer;
+    }
+
+    function toggleAnswer() {
+      const card = document.getElementById('study-card');
+      card.classList.toggle('flipped');
+    }
+
+    function prevCard() {
+      if (cards.length === 0) return;
+      currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+      showCard();
+    }
+
+    function nextCard() {
+      if (cards.length === 0) return;
+      currentIndex = (currentIndex + 1) % cards.length;
+      showCard();
+    }
+
+    loadCards();
+  </script>
+</body>
+</html>

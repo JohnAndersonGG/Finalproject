@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Add Flashcard</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Add New Flashcard</h1>
+    <button onclick="window.location.href='/'">Back</button>
+  </header>
+  <form id="add-form">
+    <div class="error-message" id="error-msg"></div>
+    <input type="text" id="question" placeholder="Enter question..." />
+    <textarea id="answer" rows="4" placeholder="Enter answer..."></textarea>
+    <button type="submit">Add Flashcard</button>
+  </form>
+
+  <script>
+    const form = document.getElementById('add-form');
+    const questionEl = document.getElementById('question');
+    const answerEl = document.getElementById('answer');
+    const errorMsg = document.getElementById('error-msg');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const question = questionEl.value.trim();
+      const answer = answerEl.value.trim();
+      questionEl.classList.remove('error');
+      answerEl.classList.remove('error');
+      errorMsg.textContent = '';
+
+      if (!question || !answer) {
+        errorMsg.textContent = 'Both question and answer are required.';
+        if (!question) questionEl.classList.add('error');
+        if (!answer) answerEl.classList.add('error');
+        return;
+      }
+
+      await fetch('/api/cards', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question, answer })
+      });
+
+      window.location.href = '/all-cards';
+    });
+  </script>
+</body>
+</html>

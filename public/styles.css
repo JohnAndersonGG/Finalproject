@@ -1,0 +1,188 @@
+/* Base page styling */
+body {
+  background-color: #2f2f2f;
+  color: #ffffff;
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+header {
+  background-color: #4b0082;
+  padding: 20px;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 26px;
+}
+
+button {
+  margin: 20px;
+  padding: 18px 36px;
+  font-size: 20px;
+  background-color: #800080;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #9d50bb;
+}
+
+/* Form styling */
+form {
+  max-width: 500px;
+  margin: 40px auto;
+  background-color: #444;
+  padding: 30px;
+  border-radius: 10px;
+}
+
+input[type="text"],
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 2px solid #555;
+  border-radius: 5px;
+  background-color: #333;
+  color: #fff;
+}
+
+input.error,
+textarea.error {
+  border-color: red;
+}
+
+.error-message {
+  color: red;
+  margin-bottom: 10px;
+}
+
+/* Flashcard grid for view/edit mode */
+.flashcards-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  padding: 40px;
+}
+
+.flashcard {
+  background-color: #444;
+  padding: 40px;
+  border-radius: 10px;
+  width: 500px;
+  box-shadow: 0 0 20px rgba(128, 0, 128, 0.5);
+  text-align: left;
+}
+
+.flashcard h2 {
+  color: #d1c4e9;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.flashcard p {
+  color: #bdbdbd;
+  font-size: 20px;
+}
+
+.flashcard-actions {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.edit-btn {
+  background-color: #4caf50;
+}
+
+.delete-btn {
+  background-color: #f44336;
+}
+
+.edit-btn:hover {
+  background-color: #66bb6a;
+}
+
+.delete-btn:hover {
+  background-color: #ef5350;
+}
+
+/* Study Mode layout */
+#study-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  min-height: 80vh;
+}
+
+.study-controls {
+  margin-top: 20px;
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+/* Centering the buttons on the index page */
+.main-menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  gap: 20px;
+}
+
+/* Flip card effect */
+.flashcard {
+  perspective: 1000px;
+  width: 500px;
+  height: 300px;
+  position: relative;
+}
+
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.flashcard.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 10px;
+  background-color: #444;
+  box-shadow: 0 0 20px rgba(128, 0, 128, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.card-front {
+  color: #d1c4e9;
+  font-size: 24px;
+}
+
+.card-back {
+  transform: rotateY(180deg);
+  color: #bdbdbd;
+  font-size: 20px;
+}

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>All Flashcards</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header>
+    <h1>All Flashcards</h1>
+    <button onclick="window.location.href='/create'">Add New</button>
+    <button onclick="window.location.href='/'">Home</button>
+  </header>
+  <div class="flashcards-container" id="cards"></div>
+
+  <script>
+    async function loadCards() {
+      const res = await fetch('/api/cards');
+      const cards = await res.json();
+      const container = document.getElementById('cards');
+      container.innerHTML = '';
+
+      cards.forEach(card => {
+        const div = document.createElement('div');
+        div.className = 'flashcard';
+        div.innerHTML = `
+          <h2>${card.question}</h2>
+          <p>${card.answer}</p>
+          <div class="flashcard-actions">
+            <button class="edit-btn" onclick="window.location.href='/edit/${card.id}'">Edit</button>
+            <button class="delete-btn" onclick="deleteCard(${card.id})">Delete</button>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    async function deleteCard(id) {
+      await fetch('/api/cards/' + id, { method: 'DELETE' });
+      loadCards();
+    }
+
+    loadCards();
+  </script>
+</body>
+</html>
